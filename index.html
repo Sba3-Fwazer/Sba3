@@ -7,28 +7,24 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
 :root{
-    --primary:#6c63ff;
-    --secondary:#ff6584;
-    --accent:#43e97b;
-    --dark:#05050a;
-    --card:#111125;
-    --text:#eaeaea;
-    --gold:#ffd700;
-    --orange:#ff9f43;
-    --team1:#4facfe;
-    --team2:#fa709a;
+    --primary:#6c63ff; --secondary:#ff6584; --accent:#43e97b; --dark:#05050a;
+    --card:#111125; --text:#eaeaea; --gold:#ffd700; --orange:#ff9f43;
+    --team1:#4facfe; --team2:#fa709a;
     --night-bg: radial-gradient(circle at center, #1a1a3a 0%, #05050a 100%);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{
-    font-family:'Tajawal',sans-serif;
-    background: var(--night-bg);
-    color:var(--text);
-    min-height:100vh;
-    overflow-x:hidden;
-    position:relative;
-    transition: background 0.5s ease;
+body{font-family:'Tajawal',sans-serif; background: var(--night-bg); color:var(--text); min-height:100vh; overflow-x:hidden; position:relative; transition: background 0.5s ease;}
+
+/* --- تأثيرات إضافية --- */
+.btn-start:active, .opt:active, .cat-card:active { transform: scale(0.95); filter: brightness(0.8); }
+@keyframes scorePop {
+    0% { transform: scale(1); color: var(--text); }
+    50% { transform: scale(1.3); color: var(--gold); text-shadow: 0 0 20px var(--gold); }
+    100% { transform: scale(1); color: inherit; }
 }
+.score-pulse { animation: scorePop 0.6s ease-out; }
+/* ---------------------- */
+
 .bg-stars{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden;}
 .star{position:absolute;border-radius:50%;background:white;animation:twinkle 3s infinite;}
 @keyframes twinkle{0%,100%{opacity:0.2;transform:scale(1);}50%{opacity:0.8;transform:scale(1.3);}}
@@ -84,47 +80,17 @@ input:focus, select:focus{border-color:var(--gold);box-shadow:0 0 20px rgba(255,
 .team-score .pts{font-size:3.5rem;font-weight:900;text-shadow:0 0 20px currentColor;}
 .team1-color{color:var(--team1);} .team2-color{color:var(--team2);}
 .target-info{margin-top:15px;font-weight:700;color:var(--gold);font-size:1.1rem;}
-
-/* CONFETTI */
 .confetti{position:fixed;width:10px;height:10px;top:-10px;animation:fall 2s linear forwards;z-index:9999;}
 @keyframes fall{to{ transform:translateY(100vh) rotate(720deg); }}
-
-/* X ERROR */
-.wrong-x{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:180px;color:#ff4b2b;font-weight:bold;z-index:9999;animation:fadeX .6s forwards;text-shadow: 0 0 30px rgba(255,75,43,0.8);}
-@keyframes fadeX{from{opacity:1;transform:translate(-50%,-50%) scale(1);}to{opacity:0;transform:translate(-50%,-50%) scale(2.5);}}
-
-/* SHAKE EFFECT */
+.feedback-overlay{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:180px;font-weight:bold;z-index:9999;animation:fadeFeedback .6s forwards;pointer-events:none;}
+.feedback-x{color:#ff4b2b; text-shadow: 0 0 30px rgba(255,75,43,0.8);}
+.feedback-check{color:#43e97b; text-shadow: 0 0 30px rgba(67,233,123,0.8);}
+@keyframes fadeFeedback{from{opacity:1;transform:translate(-50%,-50%) scale(1);}to{opacity:0;transform:translate(-50%,-50%) scale(2.5);}}
 .shake {animation: shakeAnim 0.4s cubic-bezier(.36,.07,.19,.97) both;}
 @keyframes shakeAnim {10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(4px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-8px, 0, 0); } 40%, 60% { transform: translate3d(8px, 0, 0); }}
-
-/* REMINDER NOTIFICATION */
-.reminder-toast{
-    position:fixed;
-    bottom:30px;
-    left:50%;
-    transform:translateX(-50%) translateY(100px);
-    background:rgba(0,0,0,0.85);
-    color:var(--gold);
-    padding:15px 30px;
-    border-radius:50px;
-    border:2px solid var(--gold);
-    z-index:10000;
-    font-weight:900;
-    font-size:1.2rem;
-    box-shadow:0 10px 40px rgba(255,215,0,0.3);
-    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display:flex;
-    align-items:center;
-    gap:15px;
-    backdrop-filter:blur(10px);
-}
+.reminder-toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(0,0,0,0.85);color:var(--gold);padding:15px 30px;border-radius:50px;border:2px solid var(--gold);z-index:10000;font-weight:900;font-size:1.2rem;box-shadow:0 10px 40px rgba(255,215,0,0.3);transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);display:flex;align-items:center;gap:15px;backdrop-filter:blur(10px);}
 .reminder-toast.show{transform:translateX(-50%) translateY(0);}
-
-/* DARK MODE PRO */
-body.dark-mode-pro{
-    background: #020205;
-    --card: #080815;
-}
+body.dark-mode-pro{background: #020205; --card: #080815;}
 body.dark-mode-pro .star{background: var(--gold); opacity: 0.5;}
 </style>
 </head>
@@ -139,14 +105,12 @@ body.dark-mode-pro .star{background: var(--gold); opacity: 0.5;}
 <div class="corner corner-br">💎 Fwazer 💎</div>
 
 <div class="container">
-    <!-- SCREEN 1: START -->
     <div class="screen active" id="startScreen">
         <h1>🌙 Sba3 Fwazer</h1>
-        <p style="font-size:1.4rem;margin-bottom:45px;opacity:0.9;color:var(--gold);">أقوى تحدي فوازير بين فريقين! 🔥</p>
-        <button class="btn-start" onclick="showScreen('setupScreen')">جاهز لبدء التحدي؟</button>
+        <p style="font-size:1.4rem;margin-bottom:45px;opacity:0.9;color:var(--gold);">جاهز ل فوازير سباع ؟</p>
+        <button class="btn-start" onclick="playSound(); initAudioAndStart()">بدء التحدي 🚀</button>
     </div>
 
-    <!-- SCREEN 2: SETUP -->
     <div class="screen" id="setupScreen">
         <h2 style="margin-bottom:35px;color:var(--gold);font-size:2rem;">👥 إعداد التحدي</h2>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
@@ -170,41 +134,40 @@ body.dark-mode-pro .star{background: var(--gold); opacity: 0.5;}
             </select>
         </div>
         <p class="error-msg" id="setupError" style="color:var(--secondary);font-weight:900;margin-bottom:15px;display:none;">⚠️ يرجى إدخال أسماء الفريقين للمتابعة!</p>
-        <button class="btn-start" style="font-size:1.5rem;margin-top:20px;" onclick="startChallenge()">بدء الفوازير 🚀</button>
+        <button class="btn-start" style="font-size:1.5rem;margin-top:20px;" onclick="playSound(); startChallenge()">بدء الفوازير 🚀</button>
     </div>
 
-    <!-- SCREEN 3: CATEGORY SELECTION -->
     <div class="screen" id="catScreen">
         <div id="turnIndicator" class="turn-indicator">دور فريق: ...</div>
         <h2 style="margin-bottom:10px;font-size:1.8rem;">اختر القسم يا بطل</h2>
         <div class="target-info" id="targetDisplay">الهدف: 10 نقاط للفوز</div>
         
         <div class="cats-layout" id="catsLayout">
-            <div class="cat-card cars" onclick="pickCategory('cars')">
+            <div class="cat-card cars" onclick="playSound(); pickCategory('cars')">
                 <span class="emoji">🚗</span>
                 <span>السيارات</span>
             </div>
-            <div class="cat-card anime" onclick="pickCategory('anime')">
+            <div class="cat-card anime" onclick="playSound(); pickCategory('anime')">
                 <span class="emoji">🎌</span>
                 <span>الأنمي</span>
             </div>
-            <div class="cat-card cartoons" onclick="pickCategory('cartoons')">
+            <div class="cat-card cartoons" onclick="playSound(); pickCategory('cartoons')">
                 <span class="emoji">📺</span>
                 <span>الكرتون</span>
             </div>
-            <div class="cat-card sports" onclick="pickCategory('sports')">
+            <div class="cat-card sports" onclick="playSound(); pickCategory('sports')">
                 <span class="emoji">⚽</span>
                 <span>الرياضة</span>
             </div>
-            <div class="cat-card games" onclick="pickCategory('games')">
+            <div class="cat-card games" onclick="playSound(); pickCategory('games')">
                 <span class="emoji">🎮</span>
                 <span>الألعاب</span>
             </div>
-            <div class="cat-card history" onclick="pickCategory('history')">
+            <div class="cat-card history" onclick="playSound(); pickCategory('history')">
                 <span class="emoji">📜</span>
                 <span>التاريخ</span>
             </div>
-            <div class="cat-card general" style="grid-column: span 3;" onclick="pickCategory('general')">
+            <div class="cat-card general" style="grid-column: span 3;" onclick="playSound(); pickCategory('general')">
                 <span class="emoji">🧠</span>
                 <span>معلومات عامة</span>
             </div>
@@ -223,7 +186,6 @@ body.dark-mode-pro .star{background: var(--gold); opacity: 0.5;}
         </div>
     </div>
 
-    <!-- SCREEN 4: QUESTION -->
     <div class="screen" id="quizScreen">
         <div class="timer-ring" id="timerRing" style="--p:100">
             <span class="timer-num" id="timerNum">30</span>
@@ -234,7 +196,6 @@ body.dark-mode-pro .star{background: var(--gold); opacity: 0.5;}
         <div class="opts" id="optsGrid"></div>
     </div>
 
-    <!-- SCREEN 5: FINAL RESULT -->
     <div class="screen" id="resScreen">
         <h1 id="winnerTitle">🏆 الفائز بالتحدي!</h1>
         <div style="font-size:6rem;margin:25px 0;filter:drop-shadow(0 10px 20px rgba(255,215,0,0.5));" id="winnerEmoji">👑</div>
@@ -249,27 +210,19 @@ body.dark-mode-pro .star{background: var(--gold); opacity: 0.5;}
                 <div class="pts team2-color" id="finalPts2">0</div>
             </div>
         </div>
-        <button class="btn-start" style="font-size:1.4rem;margin-top:45px;" onclick="location.reload()">تحدي جديد 🔄</button>
+        <button class="btn-start" style="font-size:1.4rem;margin-top:45px;" onclick="playSound(); location.reload()">تحدي جديد 🔄</button>
     </div>
 </div>
 
-<!-- REMINDER TOAST -->
 <div id="reminderToast" class="reminder-toast">
     <span>✨</span>
-    <span>اللهم صلِّ وسلم على نبينا محمد</span>
+    <span>اللهم صلِّ وسلم على نبينا محمد</span>
     <span>✨</span>
 </div>
 
-<!-- SOUNDS -->
-<audio id="correctSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
-<audio id="wrongSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
-<audio id="winSound" src="https://actions.google.com/sounds/v1/cartoon/concussive_hit_guitar_boing.ogg"></audio>
-<audio id="warnSound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
-<audio id="tickSound" src="https://actions.google.com/sounds/v1/alarms/digital_beeper.ogg"></audio>
-<audio id="celebrateSound" src="https://actions.google.com/sounds/v1/cartoon/pop.ogg"></audio>
+<!-- تم استبدال ملف الصوت الخارجي بنظام صوتي ديناميكي مدمج -->
 
 <script>
-// ===== DATABASE =====
 const DB = {
     cars: [
         {q:"أي من هذه السيارات تحمل محركاً بسعة 8.0 لتر و 16 أسطوانة (W16)؟",o:["بوغاتي شيرون","فيراري SF90","لامبورغيني أفينتادور","باغاني هوايرا"],a:"بوغاتي شيرون"},
@@ -300,7 +253,7 @@ const DB = {
         {q:"في أنمي 'ديث نوت'، ما هو الاسم الحقيقي لـ 'L'؟",o:["إل لولايت","إل ريوزاكي","إل نير","إل ميلو"],a:"إل لولايت"},
         {q:"من هو مخرج فيلم الأنمي الشهير 'Spirited Away'؟",o:["هاياو ميازاكي","ساتوشي كون","ماكوتو شينكاي","مامورو هوسودا"],a:"هاياو ميازاكي"},
         {q:"في أنمي 'جوجوتسو كايسن'، ما هو اسم توسيع المجال الخاص بـ 'غوجو ساتورو'؟",o:["الفراغ اللانهائي","ضريح السكون","حديقة الظلال","تابوت الجبل"],a:"الفراغ اللانهائي"},
-        {q:"ما هو اسم المنظمة التي يقاتلها 'إيرين' في البداية في هجوم العمالقة؟",o:["لا يقاتل منظمة بل عمالقة","المارلي","الإلديا","الرست"],a:"لا يقاتل منظمة بل عمالقة"},
+        {q:"ما هو اسم المنظمة التي يقاتلها 'إيرين' في البداية في هجوم العمالقة؟",o:["لا يقاتل منظمة بل عمالقة","المارلي","إلديا","الرست"],a:"لا يقاتل منظمة بل عمالقة"},
         {q:"في أنمي 'فول ميتال ألكيميست'، ما هو القانون الأساسي للكيمياء؟",o:["التبادل المتكافئ","الحفاظ على المادة","التحول الكلي","قانون الحقيقة"],a:"التبادل المتكافئ"},
         {q:"ما هو اسم القطة في أنمي 'سيلور مون'؟",o:["لونا","أرتيميس","ديانا","ميو"],a:"لونا"},
         {q:"في أنمي 'كود غياس'، ما هي القوة التي تمنحها 'C.C' لـ 'ليلوش'؟",o:["الغيس (Geass)","النين","الشاكرا","السحر"],a:"الغيس (Geass)"}
@@ -346,7 +299,7 @@ const DB = {
         {q:"في سلسلة 'God of War'، ما هو اسم زوجة كريتوس الثانية (أم أتريوس)؟",o:["فاي (Faye)","لافي","فريا","أفروديت"],a:"فاي (Faye)"},
         {q:"ما هو اسم المدينة التي تدور فيها أحداث لعبة 'BioShock' تحت الماء؟",o:["Rapture","Columbia","Atlantis","City 17"],a:"Rapture"},
         {q:"من هو المبتكر الرئيسي لسلسلة 'Metal Gear'؟",o:["هيديو كوجيما","شينجي ميكامي","تيتسويا نومورا","يوشيتاكا أمانو"],a:"هيديو كوجيما"},
-        {q:"ما هو اسم السيف الأسطوري الذي يحمله 'لينك' في زيلدا? ",o:["Master Sword","Excalibur","Buster Sword","Zelda Sword"],a:"Master Sword"},
+        {q:"ما هو اسم السيف الأسطوري الذي يحمله 'لينك' في زيلدا؟",o:["Master Sword","Excalibur","Buster Sword","Zelda Sword"],a:"Master Sword"},
         {q:"ما هو اسم الشركة التي طورت لعبة 'Elden Ring' بالتعاون مع جورج ر.ر. مارتن؟",o:["FromSoftware","Bluepoint","Ubisoft","Capcom"],a:"FromSoftware"},
         {q:"في سلسلة 'Resident Evil'، ما هو اسم المنظمة المسؤولة عن فيروس T؟",o:["Umbrella Corporation","S.T.A.R.S","Blue Umbrella","T-Virus Co"],a:"Umbrella Corporation"},
         {q:"ما هي اللعبة التي بدأت كـ 'مود' (Mod) للعبة Warcraft III؟",o:["Dota","League of Legends","Smite","Heroes of the Storm"],a:"Dota"},
@@ -391,28 +344,75 @@ const DB = {
     ]
 };
 
-// ===== GAME STATE =====
-let state = {
-    team1: "",
-    team2: "",
-    score1: 0,
-    score2: 0,
-    target: 10,
-    turn: 1,
-    currentQ: null,
-    timer: 30,
-    timerInterval: null,
-    answered: false,
-    currentCatColor: ""
-};
+let state = { team1: "", team2: "", score1: 0, score2: 0, target: 10, turn: 1, currentQ: null, timer: 30, timerInterval: null, answered: false, currentCatColor: "", audioInitialized: false };
 
-// ===== UI FUNCTIONS =====
+// ===== نظام الصوت الديناميكي الهادئ والمريح =====
+let audioCtx;
+function initAudio() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+
+function playSound(type = 'click') {
+    initAudio();
+    if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    const now = audioCtx.currentTime;
+
+    if (type === 'click') {
+        // صوت "نقرة" ناعم ومريح (Soft Pop)
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(400, now);
+        oscillator.frequency.exponentialRampToValueAtTime(150, now + 0.1);
+
+        gainNode.gain.setValueAtTime(0, now);
+        gainNode.gain.linearRampToValueAtTime(0.15, now + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+        
+        oscillator.start(now);
+        oscillator.stop(now + 0.15);
+        if (navigator.vibrate) navigator.vibrate(20);
+    } else if (type === 'hover') {
+        // صوت "لمس" خفيف جداً (Subtle Tick)
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(800, now);
+        
+        gainNode.gain.setValueAtTime(0, now);
+        gainNode.gain.linearRampToValueAtTime(0.03, now + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+        
+        oscillator.start(now);
+        oscillator.stop(now + 0.05);
+    }
+}
+
+// ===== تحديث النقاط مع تأثير القفزة =====
+function updateScoreUI(teamId, newScore) {
+    const el = document.getElementById(`scorePts${teamId}`);
+    el.textContent = newScore;
+    el.classList.remove('score-pulse');
+    void el.offsetWidth; 
+    el.classList.add('score-pulse');
+}
+
+function initAudioAndStart() { playSound(); showScreen('setupScreen'); }
+
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 }
 
 function startChallenge() {
+    playSound();
     const t1 = document.getElementById('team1Input').value.trim();
     const t2 = document.getElementById('team2Input').value.trim();
     const target = parseInt(document.getElementById('targetPoints').value);
@@ -439,16 +439,15 @@ function startChallenge() {
 
 function updateTurnUI() {
     const indicator = document.getElementById('turnIndicator');
-    const currentName = state.turn === 1 ? state.team1 : state.team2;
-    indicator.textContent = `دور فريق: ${currentName}`;
+    indicator.textContent = state.turn === 1 ? `دور فريق: ${state.team1}` : `دور فريق: ${state.team2}`;
     indicator.className = `turn-indicator ${state.turn === 1 ? 'team1-turn' : 'team2-turn'}`;
 }
 
 function pickCategory(cat) {
+    state.currentCat = cat;
     const questions = DB[cat];
     state.currentQ = questions[Math.floor(Math.random() * questions.length)];
     state.answered = false;
-    state.timer = 30;
     
     const catCard = document.querySelector(`.cat-card.${cat}`);
     state.currentCatColor = window.getComputedStyle(catCard).backgroundImage;
@@ -456,48 +455,84 @@ function pickCategory(cat) {
     document.getElementById('qcardBox').style.color = cat === 'history' ? '#333' : 'white';
 
     document.getElementById('qtxt').textContent = state.currentQ.q;
-    const optsGrid = document.getElementById('optsGrid');
-    optsGrid.innerHTML = '';
+    const grid = document.getElementById('optsGrid');
+    grid.innerHTML = "";
     
     const shuffledOpts = [...state.currentQ.o].sort(() => Math.random() - 0.5);
     shuffledOpts.forEach(opt => {
         const btn = document.createElement('button');
-        btn.className = 'opt';
+        btn.className = "opt";
         btn.textContent = opt;
-        btn.onclick = () => checkAnswer(opt, btn);
-        optsGrid.appendChild(btn);
+        btn.onclick = () => handleAnswer(opt, btn);
+        grid.appendChild(btn);
     });
     
     showScreen('quizScreen');
     startTimer();
 }
 
-function startTimer() {
+function handleAnswer(choice, btn) {
+    if (state.answered) return;
+    state.answered = true;
     clearInterval(state.timerInterval);
+    
+    const isCorrect = (choice === state.currentQ.a);
+    const btns = document.querySelectorAll('.opt');
+    
+    btns.forEach(b => {
+        b.disabled = true;
+        if (b.textContent === state.currentQ.a) b.classList.add('correct');
+        else if (b.textContent === choice && !isCorrect) b.classList.add('wrong');
+    });
+
+    if (isCorrect) {
+        showFeedback(true);
+        launchConfetti();
+        if (state.turn === 1) { state.score1++; updateScoreUI(1, state.score1); }
+        else { state.score2++; updateScoreUI(2, state.score2); }
+    } else {
+        showFeedback(false);
+        document.body.classList.add("shake");
+        setTimeout(() => document.body.classList.remove("shake"), 400);
+    }
+
+    setTimeout(() => {
+        if (checkWin()) return;
+        state.turn = state.turn === 1 ? 2 : 1;
+        updateTurnUI();
+        showScreen('catScreen');
+    }, 1000);
+}
+
+function checkWin() {
+    if (state.score1 >= state.target || state.score2 >= state.target) {
+        const winner = state.score1 >= state.target ? state.team1 : state.team2;
+        document.getElementById('winnerName').textContent = winner;
+        document.getElementById('finalPts1').textContent = state.score1;
+        document.getElementById('finalPts2').textContent = state.score2;
+        launchConfetti(100);
+        showScreen('resScreen');
+        return true;
+    }
+    return false;
+}
+
+function startTimer() {
     state.timer = 30;
     updateTimerUI();
-
+    clearInterval(state.timerInterval);
     state.timerInterval = setInterval(() => {
-        if (state.timer > 0) {
-            state.timer--;
-            updateTimerUI();
-            
-            // TICK SOUND
-            if(state.timer > 5) playSound("tickSound");
-        }
-
-        // INTENSE WARNING (5s and less)
+        state.timer--;
+        updateTimerUI();
+        
         if (state.timer <= 5 && state.timer > 0) {
-            playSound("warnSound");
             document.body.classList.add("shake");
             setTimeout(() => document.body.classList.remove("shake"), 200);
-            document.getElementById('timerNum').style.color = 'var(--secondary)';
-            document.getElementById('timerRing').style.filter = 'drop-shadow(0 0 15px var(--secondary))';
         }
 
         if (state.timer <= 0) {
             clearInterval(state.timerInterval);
-            autoFail();
+            handleAnswer(null, null);
         }
     }, 1000);
 }
@@ -506,99 +541,18 @@ function updateTimerUI() {
     const p = (state.timer / 30) * 100;
     document.getElementById('timerRing').style.setProperty('--p', p);
     document.getElementById('timerNum').textContent = state.timer;
-    if(state.timer > 5) document.getElementById('timerNum').style.color = 'var(--accent)';
+    document.getElementById('timerNum').style.color = state.timer <= 5 ? 'var(--secondary)' : 'var(--accent)';
 }
 
-function checkAnswer(selected, btn) {
-    if (state.answered) return;
-    state.answered = true;
-    clearInterval(state.timerInterval);
-    
-    const correct = state.currentQ.a;
-    const isCorrect = selected === correct;
-    
-    const allBtns = document.querySelectorAll('.opt');
-    allBtns.forEach(b => {
-        b.disabled = true;
-        if (b.textContent === correct) {
-            b.classList.add('correct');
-        }
-    });
-    
-    if (isCorrect) {
-        playSound("correctSound");
-        launchConfetti();
-        if (state.turn === 1) state.score1 += 1;
-        else state.score2 += 1;
-        updateScores();
-    } else {
-        playSound("wrongSound");
-        showWrongX();
-        btn.classList.add('wrong');
-        document.body.classList.add("shake");
-        setTimeout(() => document.body.classList.remove("shake"), 400);
-    }
-    
-    // REDUCED WAIT TIME TO 1 SECOND
-    setTimeout(finishTurn, 1000);
-}
-
-function autoFail() {
-    if (state.answered) return;
-    state.answered = true;
-    playSound("wrongSound");
-    showWrongX();
-    const correct = state.currentQ.a;
-    const allBtns = document.querySelectorAll('.opt');
-    allBtns.forEach(b => {
-        b.disabled = true;
-        if (b.textContent === correct) b.classList.add('correct');
-    });
-    
-    setTimeout(finishTurn, 1000);
-}
-
-function updateScores() {
-    document.getElementById('scorePts1').textContent = state.score1;
-    document.getElementById('scorePts2').textContent = state.score2;
-    document.getElementById('finalPts1').textContent = state.score1;
-    document.getElementById('finalPts2').textContent = state.score2;
-}
-
-function finishTurn() {
-    if (state.score1 >= state.target || state.score2 >= state.target) {
-        endGame();
-        return;
-    }
-    
-    state.turn = state.turn === 1 ? 2 : 1;
-    updateTurnUI();
-    showScreen('catScreen');
-}
-
-function endGame() {
-    playSound("winSound");
-    launchConfetti(100); // More confetti for win
-    document.body.classList.add("shake");
-    setTimeout(() => document.body.classList.remove("shake"), 800);
-    
-    const winner = state.score1 >= state.target ? state.team1 : state.team2;
-    document.getElementById('winnerName').textContent = winner;
-    showScreen('resScreen');
-}
-
-// ===== EFFECTS =====
-function playSound(id) {
-    const s = document.getElementById(id);
-    if (s) { 
-        s.currentTime = 0; 
-        s.volume = 0.5;
-        s.play().catch(e => console.log("Audio play blocked")); 
-    }
+function showFeedback(isCorrect) {
+    const div = document.createElement("div");
+    div.className = `feedback-overlay ${isCorrect ? 'feedback-check' : 'feedback-x'}`;
+    div.textContent = isCorrect ? "✔" : "✖";
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 600);
 }
 
 function launchConfetti(count = 50) {
-    playSound("celebrateSound");
     for (let i = 0; i < count; i++) {
         const c = document.createElement("div");
         c.className = "confetti";
@@ -611,23 +565,12 @@ function launchConfetti(count = 50) {
     }
 }
 
-function showWrongX() {
-    const x = document.createElement("div");
-    x.className = "wrong-x";
-    x.textContent = "✖";
-    document.body.appendChild(x);
-    setTimeout(() => x.remove(), 600);
-}
-
-// ===== REMINDER SYSTEM =====
 function startReminderInterval() {
     setInterval(() => {
         const toast = document.getElementById('reminderToast');
         toast.classList.add('show');
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 5000);
-    }, 120000); // Every 2 minutes
+        setTimeout(() => toast.classList.remove('show'), 5000);
+    }, 120000);
 }
 
 // Background Stars
@@ -655,7 +598,13 @@ for (let i = 0; i < 25; i++) {
     fanous.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
     fanousBg.appendChild(fanous);
 }
-</script>
 
+// Hover sound for buttons
+document.addEventListener('mouseover', function(e) {
+    if (e.target.tagName === 'BUTTON' || e.target.closest('.cat-card') || e.target.classList.contains('opt')) {
+        playSound('hover');
+    }
+});
+</script>
 </body>
 </html>
